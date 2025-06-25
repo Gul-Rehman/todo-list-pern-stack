@@ -23,10 +23,16 @@ const AddDescriptionField = () => {
     }
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      addTodo()
+    }
+  };
+
   return (
     <>
       <Flex direction={'row'} alignItems={'center'} gap={4} >
-        <Input placeholder="Enter description" rounded={'md'} value={description} onChange={event => setDescription(event.target.value)} />
+        <Input placeholder="Enter description" rounded={'md'} value={description} onChange={event => setDescription(event.target.value)} onKeyDown={handleKeyDown}/>
         <Button variant={'solid'} colorPalette={'blue'} rounded={'md'} onClick={addTodo}>Add</Button>
       </Flex>
       <Toaster />
