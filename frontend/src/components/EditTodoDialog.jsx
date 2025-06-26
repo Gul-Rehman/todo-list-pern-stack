@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { MdEdit } from 'react-icons/md'
 
 const EditTodoDialog = ({ todo, setAllTodos, allTodos }) => {
+    const [isOpen, setIsOpen] = useState(false)
     const [description, setDescription] = useState(todo.description || "")
 
     const updateTodo = async (id) => {
@@ -15,20 +16,30 @@ const EditTodoDialog = ({ todo, setAllTodos, allTodos }) => {
                     else return todo
                 })
                 setAllTodos(updatedTodos)
+                setIsOpen(false)
             }
         } catch (err) {
             console.error(err.message)
         }
     }
+
+    const closeModal = () => {
+        setDescription('')
+        setIsOpen(false)
+    }
+
     return (
         <>
-            <Dialog.Root onExitComplete={() => setDescription('')}>
-                <Dialog.Trigger asChild>
+            <Dialog.Root open={isOpen} onExitComplete={closeModal} onInteractOutside={closeModal}>
+                <Dialog.Trigger >
                     <IconButton
                         key={"surface"}
                         variant={"subtle"}
                         size={'md'}
-                        onClick={() => setDescription(todo?.description)}
+                        onClick={() => {
+                            setIsOpen(true)
+                            setDescription(todo?.description)
+                        }}
                     >
                         <MdEdit />
                     </IconButton>
@@ -50,7 +61,7 @@ const EditTodoDialog = ({ todo, setAllTodos, allTodos }) => {
                             </Dialog.Body>
                             <Dialog.Footer>
                                 <Dialog.ActionTrigger asChild>
-                                    <Button variant="outline">Cancel</Button>
+                                    <Button variant="outline" onClick={closeModal}>Cancel</Button>
                                 </Dialog.ActionTrigger>
                                 <Button onClick={() => updateTodo(todo?.todo_id)}>Update</Button>
                             </Dialog.Footer>

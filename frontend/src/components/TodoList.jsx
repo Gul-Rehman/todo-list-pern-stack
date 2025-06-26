@@ -6,24 +6,8 @@ import EditTodoDialog from './EditTodoDialog';
 
 
 
-const TodoList = () => {
-    const [allTodos, setAllTodos] = useState([])
-    const getTodoList = async () => {
-        try {
-            const response = await axios.get("http://localhost:4000/get-all-todos",)
-            if (response.status === 200 || response.status === 201) {
-
-                setAllTodos(response.data)
-            }
-        } catch (err) {
-            console.error(err.message)
-        }
-    }
-    useEffect(() => {
-        getTodoList()
-    }, [])
-
-
+const TodoList = ({allTodos, setAllTodos}) => {
+    
     const deleteTodo = async (id) => {
         try {
             const response = await axios.delete(`http://localhost:4000/delete-todo/${id}`,)
@@ -43,7 +27,7 @@ const TodoList = () => {
                     <Table.Row>
                         <Table.ColumnHeader>No</Table.ColumnHeader>
                         <Table.ColumnHeader>Description</Table.ColumnHeader>
-                        <Table.ColumnHeader>Actions</Table.ColumnHeader>
+                        <Table.ColumnHeader width={"120px"}>Actions</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 
-const AddDescriptionField = () => {
+const AddDescriptionField = ({getTodoList}) => {
   const [description, setDescription] = useState("")
 
   const addTodo = async () => {
@@ -17,6 +17,7 @@ const AddDescriptionField = () => {
           description: description,
         })
         setDescription("")
+        getTodoList()
       }
     } catch (err) {
       console.error(err.message)
